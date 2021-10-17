@@ -1,4 +1,4 @@
-<h1 align=center>進捗管理アプリ(仮)</h1>
+<h1 align=center>:blue_book:進捗管理アプリ(仮)</h1>
 
 <img src="https://wp.notepm.jp/wp-content/uploads/2020/03/project-tool.jpg">
 
@@ -21,4 +21,4 @@
 ***
 
 ## :eyes: Author
-* Nakashima Yuta
+* <a href="https://github.com/nakashi94">Nakashima Yuta</a>
