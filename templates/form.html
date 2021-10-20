@@ -1,0 +1,15 @@
+{% extends 'index.html' %}
+
+{% block body %}
+<h1>入力フォーム</h1>
+
+<form action="/form" method="POST">
+    <p>今日何をしましたか？</p>
+    <input type="text" name="done">
+
+    <p>明日やることは？</p>
+    <input type="text" name="do">
+
+    <input type="submit" value="確認">
+</form>
+{% endblock %}
