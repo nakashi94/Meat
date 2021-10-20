@@ -1,15 +1,17 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, session, redirect
 
 app = Flask(__name__)
+app.secret_key = b"random string..."
 
-@app.route('/', methods=['Get'])
+name_list = {"hoge": "hogepiyo"}
+
+
+@app.route("/", methods=["GET", "POST"])
 def index():
-    return "test"
+    title = "Test"
+    return render_template("index.html", title=title)
 
-@app.route('/hello-world', methods=["Get"])
-def hello():
-    return render_template('index.html')
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.debug = True
-    app.run(host='0.0.0.0', port=80)
+    app.run(host="0.0.0.0", port=80)

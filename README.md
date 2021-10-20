@@ -24,8 +24,8 @@
 <p>flask_appという名前でディレクトリを作成し、その配下で</p>
 
     $ git clone
-    $ docker build -t s2110121/flask-app:1.0 .
-    $ docker run -p 5000:80 -v ${PWD}:/flask_app -it s2110121/flask-app:1.0
+    $ docker build -t s2110121/flask-app:1.1 .
+    $ docker run -p 5000:80 -v ${PWD}:/flask_app -it s2110121/flask-app:1.1
     
 <p>を入力する。そして、</p>
 

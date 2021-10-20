@@ -1,11 +1,23 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <title>Hello-world</title>
-    <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
-</head>
-<body>
-    <h1>Hello World!</h1>
-</body>
-</html>
+{% extends "layout.html" %}
+
+{% block title %}
+ログイン
+{% endblock %}
+
+{% block headline %}
+{{title}}
+{% endblock %}
+
+{% block content %}
+<section class="login-dark">
+    <form method="post">
+        <h2 class="visually-hidden">Login Form</h2>
+        <div class="illustration"><i class="icon ion-ios-locked-outline"></i></div>
+        <div class="mb-3"><input class="form-control" type="id" name="id" placeholder="id"></div>
+        <div class="mb-3"><input class="form-control" type="password" name="password" placeholder="Password">
+        </div>
+        <div class="mb-3"><button class="btn btn-primary d-block w-100" type="submit">Log In</button></div><a
+            class="forgot" href="#">Forgot your id or password?</a>
+    </form>
+</section>
+{% endblock %}
