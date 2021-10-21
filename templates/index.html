@@ -1,11 +1,11 @@
 {% extends "layout.html" %}
 
 {% block title %}
-ログイン
+Login
 {% endblock %}
 
 {% block headline %}
-{{title}}
+{{title, message}}
 {% endblock %}
 
 {% block content %}
@@ -13,7 +13,7 @@
     <form method="post">
         <h2 class="visually-hidden">Login Form</h2>
         <div class="illustration"><i class="icon ion-ios-locked-outline"></i></div>
-        <div class="mb-3"><input class="form-control" type="id" name="id" placeholder="id"></div>
+        <div class="mb-3"><input class="form-control" type="id" name="id" placeholder="id" value="{{id}}"></div>
         <div class="mb-3"><input class="form-control" type="password" name="password" placeholder="Password">
         </div>
         <div class="mb-3"><button class="btn btn-primary d-block w-100" type="submit">Log In</button></div><a

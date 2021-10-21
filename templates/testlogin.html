@@ -1,0 +1,16 @@
+<html>
+  <head>
+    <title>Login</title>
+  </head>
+  <body>
+    <h1>ログイン</h1>
+    <p>
+      <form method="POST" action="{{url_for('login')}}">
+        {{ form.csrf_token }}
+        {{ form.name.label }}:{{ form.name }} 
+        {{ form.mail.label }}:{{ form.mail }}
+        {{ form.submit}}
+     </form>
+    </p>
+  </body>
+</html>
