@@ -7,7 +7,8 @@ RUN pip install --upgrade pip && \
     pip install sqlalchemy && \
     pip install flask_login && \
     pip install flask_wtf && \
-    pip install wtforms
+    pip install wtforms && \
+    pip install flask_sqlalchemy
 
 RUN mkdir /flask_app
 
