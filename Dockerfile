@@ -5,7 +5,9 @@ RUN apt-get update -qq
 RUN pip install --upgrade pip && \
     pip install flask && \
     pip install sqlalchemy && \
-    pip install flask_login
+    pip install flask_login && \
+    pip install flask_wtf && \
+    pip install wtforms
 
 RUN mkdir /flask_app
 
