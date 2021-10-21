@@ -8,8 +8,22 @@ name_list = {"hoge": "hogepiyo"}
 
 @app.route("/", methods=["GET", "POST"])
 def index():
-    title = "Test"
-    return render_template("index.html", title=title)
+    title = "home"
+    return render_template(
+        "login.html", title=title
+    )  # login.htmlをindex.html(アプリのホーム画面)に変える
+
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    title = "Login"
+    return render_template("login.html", title=title)
+
+
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    title = "Register-form"
+    return render_template("register.html", title=title)
 
 
 if __name__ == "__main__":
