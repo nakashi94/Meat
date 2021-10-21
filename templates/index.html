@@ -2,11 +2,19 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>タイトル</title>
-    <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}"> 
+    <!-- # staticディレクトリのstyle.cssを読み込む -->
     {% block head %}{% endblock %}
 </head>
 <body>
     {% block body %}{% endblock %}
+    <h1>{% block headline %}{% endblock %}</h1>
+
+    {% block content %}{% endblock %}
+
+    <div class="footer">
+        {% block footer %}{% endblock %}
+    </div>
 </body>
 </html>

@@ -1,14 +1,25 @@
-{% extends 'index.html' %}
+{% extends 'layout.html' %}
 
-{% block body %}
+{% block headline %}
 <h1>入力フォーム</h1>
-<h2>この内容でよろしいですか</h2>
-{{a}}
+{% endblock %}
 
+{% block content %}
+<h2>この内容でよろしいですか</h2>
+
+{{a}}
 <br>
 {{b}}
+<br>
+{{c}}
 
 <form action="/register" method="POST">
     <input type="submit" value="登録">
+
+    <input type="hidden" value={{t}} name="team">
+    <input type="hidden" value={{u}} name="user_id">
+    <input type="hidden" value={{a}} name="done">
+    <input type="hidden" value={{b}} name="do">
+    <input type="hidden" value={{c}} name="importance">
 </form>
 {% endblock %}

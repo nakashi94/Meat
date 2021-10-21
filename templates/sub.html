@@ -1,9 +1,9 @@
-{% extends 'index.html' %}
+{% extends 'layout.html' %}
 
-{% block body %}
+{% block content %}
 <h1>登録完了しました</h1>
 
-
+{{d}}
 <form action="/sub" method="POST">
     <p>戻る</p>
     <input type="submit" value="ホームに戻る">

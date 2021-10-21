@@ -1,11 +1,27 @@
-{% extends 'index.html' %}
+{% extends 'layout.html' %}
 
-{% block body %}
-<h1>入力フォーム</h1>
-
+{% block headline %}
+<h1>{{ t }}の画面</h1>
 
 <form action="/" method="POST">
     <p>登録</p>
+    <input type="hidden" value={{t}} name="team">
+    <input type="hidden" value={{u}} name="user_id">
+
     <input type="submit" value="Create">
 </form>
+{% endblock %}
+
+{% block content %}
+<br>
+{% for item in items %}
+<li class="list-group-item">{{ item.user_id }}</li>
+<h3>やったこと</h3>
+<p>{{ item.today_do }}</p>
+<h3>明日やること</h3>
+<p>{{ item.tomorrow_do }}</p>
+<h3>重要度</h3>
+<p>{{ item.importance }}</p>
+{% endfor %} 
+
 {% endblock %}
