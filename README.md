@@ -36,3 +36,4 @@
 ## :eyes: Author
 * <a href="https://github.com/nakashi94">Nakashima Yuta</a>
 * <a href="https://github.com/Rei-Suzuki1729">Suzuki Rei</a>
+* <a href="https://github.com/crazymonkeybanana">Takizawa Yuki</a>

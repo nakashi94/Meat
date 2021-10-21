@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+
+{% block title %}
+日報記入
+{% endblock %}
+
+{% block headline %}
+{{title}}
+{% endblock %}
+
+{% block content %}
+<section class="login-dark">
+    <form method="post">
+        <h2 class="visually-hidden">Post Form</h2>
+        <p>投稿日：<input type="date" name="post_date"></p>
+        <div class="form-group">
+            <label for="select">業務内容</label>
+            <select class="form-control" id="select">
+                <option>日報</option>
+            </select>
+        </div>
+        本文:<textarea name="comment" cols="30" rows="8" maxlength="140" wrap="hard" placeholder="140字以内で入力してください。"></textarea>
+        <button href="/" type="button" class="btn btn-outline-success">取消</button>
+        <button type="submit" class="btn btn-success">投稿</button>
+    </form>
+</section>
+<section>
+    <h2>日報一覧</h2>
+    <p>投稿はまだありません。</p>
+</section>
+{% endblock %}
