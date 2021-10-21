@@ -13,7 +13,10 @@
 {% for item in items %}
 <li class="list-group-item">{{ item.team_id }}</li>
 <h3>チーム名</h3>
-<p>{{ item.teamname }}</p>
+<form action="/toteam" method="POST">
+    <input type="hidden" value={{ item.teamname }} name="team">
+    <input type="submit" value="{{ item.teamname }}">
+</form>
 {% endfor %} 
 
 {% endblock %}

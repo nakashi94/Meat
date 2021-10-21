@@ -6,7 +6,6 @@
 <form action="/team" method="POST">
     <input type="hidden" value={{t}} name="team">
     <input type="hidden" value={{u}} name="user_id">
-
     <input type="submit" value="Create">
 </form>
 {% endblock %}
@@ -14,6 +13,7 @@
 {% block content %}
 <br>
 {% for item in items %}
+<p>{{ item.date }}</p>
 <li class="list-group-item">{{ item.user_id }}</li>
 <h3>やったこと</h3>
 <p>{{ item.today_do }}</p>

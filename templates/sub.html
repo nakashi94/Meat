@@ -4,7 +4,8 @@
 <h1>登録完了しました</h1>
 
 {{d}}
-<form action="/sub" method="POST">
+<form action="/toteam" method="POST">
+    <input type="hidden" value={{t}} name="team">
     <input type="submit" value="ホームに戻る">
 </form>
 {% endblock %}
