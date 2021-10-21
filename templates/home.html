@@ -3,8 +3,7 @@
 {% block headline %}
 <h1>{{ t }}の画面</h1>
 
-<form action="/" method="POST">
-    <p>登録</p>
+<form action="/team" method="POST">
     <input type="hidden" value={{t}} name="team">
     <input type="hidden" value={{u}} name="user_id">
 

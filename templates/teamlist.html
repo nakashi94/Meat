@@ -1,0 +1,19 @@
+{% extends 'layout.html' %}
+
+{% block headline %}
+<h1>チーム一覧</h1>
+
+<form action="/" method="POST">
+    <input type="submit" value="Create">
+</form>
+{% endblock %}
+
+{% block content %}
+<br>
+{% for item in items %}
+<li class="list-group-item">{{ item.team_id }}</li>
+<h3>チーム名</h3>
+<p>{{ item.teamname }}</p>
+{% endfor %} 
+
+{% endblock %}

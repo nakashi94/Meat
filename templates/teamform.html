@@ -1,0 +1,14 @@
+{% extends 'layout.html' %}
+
+{% block headline %}
+<h1>チーム作成</h1>
+{% endblock %}
+
+{% block content %}
+<form action="/teamform" method="POST">    
+    <p>チーム名</p>
+    <input type="text" name="teamname">
+
+    <input type="submit" value="確認">
+</form>
+{% endblock %}
