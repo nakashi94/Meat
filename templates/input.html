@@ -9,23 +9,39 @@
 {% endblock %}
 
 {% block content %}
-<section class="login-dark">
-    <form method="post">
+<section class="form_input">
+    <form action="/imput" method="POST">
         <h2 class="visually-hidden">Post Form</h2>
-        <p>投稿日：<input type="date" name="post_date"></p>
+
+        <p>*投稿日：<input type="date" name="post_date"></p>
+
         <div class="form-group">
-            <label for="select">業務内容</label>
+            <label for="select">*業務内容</label>
             <select class="form-control" id="select">
                 <option>日報</option>
+                <option>メンバーにひとこと</option>
             </select>
         </div>
-        本文:<textarea name="comment" cols="30" rows="8" maxlength="140" wrap="hard" placeholder="140字以内で入力してください。"></textarea>
+        <textarea name="comment" cols="30" rows="8" maxlength="140" wrap="hard" placeholder="140字以内で入力してください。"></textarea>
+
+        <p>*重要度</p>
+        <input type="radio" name="importance" value="1">1
+        <input type="radio" name="importance" value="2">2
+        <input type="radio" name="importance" value="3">3
+        <input type="radio" name="importance" value="4">4
+        <input type="radio" name="importance" value="5">5
+
+        <p>*進捗</p>
+        <input type="radio" name="situation" value="1">&#128519;(余裕すぎて天使)
+        <input type="radio" name="situation" value="2">&#128578;(余裕の笑み)
+        <input type="radio" name="situation" value="3">&#129320;(ま、まあ大丈夫か)
+        <input type="radio" name="situation" value="4">&#129320;(や、やばいっす)
+        <input type="radio" name="situation" value="5">&#129402;(助けてください)
+
+        <p></p>
         <button href="/" type="button" class="btn btn-outline-success">取消</button>
         <button type="submit" class="btn btn-success">投稿</button>
     </form>
 </section>
-<section>
-    <h2>日報一覧</h2>
-    <p>投稿はまだありません。</p>
-</section>
+
 {% endblock %}
