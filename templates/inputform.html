@@ -1,0 +1,28 @@
+{% extends 'layout.html' %}
+
+{% block headline %}
+<h1>入力フォーム</h1>
+{% endblock %}
+
+{% block content %}
+<form action="/dayform" method="POST">
+    <input type="hidden" value={{t}} name="team">
+    <input type="hidden" value={{u}} name="user_id">
+    
+    <p>今日何をしましたか？</p>
+    <input type="text" name="done">
+
+    <p>明日やることは？</p>
+    <input type="text" name="do">
+
+    <p>重要度</p>
+    <input type="radio" name="importance" value="1">1
+	<input type="radio" name="importance" value="2">2
+    <input type="radio" name="importance" value="3">3
+    <input type="radio" name="importance" value="4">4
+    <input type="radio" name="importance" value="5">5
+
+    <p></p>
+    <input type="submit" value="確認">
+</form>
+{% endblock %}
