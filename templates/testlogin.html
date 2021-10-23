@@ -1,0 +1,21 @@
+<html>
+  <head>
+    <title>Login</title>
+  </head>
+  <body>
+    <h1>ログイン</h1>
+    <p>
+      <form method="POST" action="{{url_for('login')}}">
+        {{ form.csrf_token }}
+        {{ form.name.label }}:{{ form.name }} 
+        {{ form.mail.label }}:{{ form.mail }}
+        {{ form.submit}}
+     </form>
+    </p>
+    <br>
+    <p>アカウント作成はこちら</p>
+    <form action="/testentry" method="POST">
+      <input type="submit" value="新規作成">
+    </form>
+  </body>
+</html>

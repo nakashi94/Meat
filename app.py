@@ -1,21 +1,46 @@
 # import module
 from flask import Flask, render_template
-from flask import Response, request, redirect, url_for
+from flask import Response, request, redirect, session, url_for
 from flask import send_from_directory, send_file
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime, date
 
+from flask_login import LoginManager, login_required, UserMixin, login_user, logout_user
+from flask_wtf import FlaskForm
+from wtforms import StringField, SubmitField
+from flask_sqlalchemy import SQLAlchemy
+from wtforms.validators import ValidationError
+
 
 # flask incetance
 app = Flask(__name__)
+login_manager = LoginManager()
+login_manager.init_app(app)
+app.secret_key = b"random string..."
+
+# global variables
+member_data = {}
+
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///todo.db'
 db = SQLAlchemy(app)
 
 #データベース作成
+# Userクラス定義
+class User(UserMixin, db.Model):
+    __tablename__ = 'User'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.Text())
+    mail = db.Column(db.Text())
+    def __init__(self, name, mail):
+        self.name = name
+        self.mail = mail
+
+# Teamsクラス定義
 class Teams(db.Model):
     team_id = db.Column(db.Integer, primary_key=True)
     teamname = db.Column(db.String(50), nullable=False)    
 
+# Messageクラス定義
 class Message(db.Model):
     message_id = db.Column(db.Integer, primary_key=True)
     teamname = db.Column(db.String(50), nullable=False)
@@ -25,17 +50,98 @@ class Message(db.Model):
     tomorrow_do = db.Column(db.String(64), nullable=False)
     importance = db.Column(db.Integer, nullable=False)
 
+# Messageクラス定義
+class Progress(db.Model):
+    feel_id = db.Column(db.Integer, primary_key=True)
+    teamname = db.Column(db.String(50), nullable=False)
+    user_id = db.Column(db.String(50), nullable=False)
+    date = db.Column(db.DateTime, nullable=False, default=datetime.now)
+    progress = db.Column(db.String(64), nullable=False)
+    feel = db.Column(db.Integer, nullable=False)
 
-@app.route('/', methods=['Get', 'POST'])
+
+# Loginクラス定義
+class LoginForm(FlaskForm):
+    name = StringField('名前')
+    mail = StringField('メールアドレス')
+    submit = SubmitField('ログイン')
+
+# EntryFormクラスの定義
+class EntryForm(FlaskForm):
+    name = StringField('名前')
+    mail = StringField('メールアドレス')
+    submit = SubmitField('アカウント作成')
+
+    def validate_name(self, name):
+        if User.query.filter_by(name=name.data).one_or_none():
+            raise ValidationError('この名前はすでに使われています')
+
+    def validate_mail(self, mail):
+        if User.query.filter_by(mail=mail.data).one_or_none():
+            raise ValidationError('このメールアドレスはすでに使われています')
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
+
+# login page
+#@app.route('/testlogin', methods=['GET','POST'])
+@app.route('/', methods=['GET','POST'])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        if User.query.filter_by(name=form.name.data, mail=form.mail.data).one_or_none():
+            user = User.query.filter_by(name=form.name.data).one_or_none()
+            login_user(user)
+            items = Teams.query.all()
+            return render_template('teamlist.html',user=user, items=items)
+        else:
+            return 'ログインに失敗しました'
+    return render_template('testlogin.html',form=form)
+
+# logout page
+@app.route("/testlogout", methods=["GET"])
+def logout():
+    logout_user()
+    return render_template('testlogout.html')
+
+# sign up page
+@app.route('/testentry', methods=['GET','POST'])
+def entry():
+  entry = EntryForm()
+  if entry.validate_on_submit():
+    newuser = User(name=entry.name.data, mail=entry.mail.data)
+    db.session.add(newuser)
+    db.session.commit()
+    return redirect('/')
+  return render_template('testentry.html', entry=entry)
+
+# test用
+#@app.route("/", methods=["GET", "POST"])
+#def index():
+#    return render_template('index.html')
+
+#@app.route('/fromteam', methods=['Get', 'POST'])
+#def fromteam():
+#    items = Teams.query.all()
+#    u = request.form.get('username')
+#    user = User.query.filter_by(name=form.name.data).one_or_none()
+#    return render_template('teamlist.html', items=items, user=user)
+
+@app.route('/teamlist', methods=['Get', 'POST'])
 def teamlist():
     #if request.method == 'GET':
     #    return render_template('index.html')
     if request.method == 'GET':
         items = Teams.query.all()
-        return render_template('teamlist.html', items=items)
+        u = request.form.get('username')
+        return render_template('teamlist.html', items=items, u=u)
     else:
         #u = request.form.get('user_id')
         return render_template('teamform.html')
+
+
 
 #チーム作成
 @app.route('/teamform', methods=['Get', 'POST'])
@@ -59,7 +165,7 @@ def teamregister():
         db.session.add(item)
         db.session.commit()
         d = datetime.now()
-        #d = d.strftime('%Y年%m月%d日 %H:%M:%S')
+        d = d.strftime('%Y:%m:%d %H:%M:%S')
         return render_template('teamsub.html', d=d)
 
 #登録完了
@@ -75,19 +181,19 @@ def teamsub():
 @app.route('/toteam', methods=['GET', 'POST'])
 def toteam():
     t = request.form.get('team')
-    user_id = 'test'
-    #items = Message.query.all()
+    username = request.form.get('user')
+    progress = Progress.query.filter_by(teamname=t).all()
     items = Message.query.filter_by(teamname=t).all()
-    return render_template('home.html', t=t, u=user_id, items=items)
+    return render_template('home.html', t=t, u=username, items=items, progresses=progress)
 
 @app.route('/team', methods=['Get', 'POST'])
 def layout():
     t = request.form.get('team')
-    u = request.form.get('user_id')
+    u = request.form.get('username')
     return render_template('form.html', t=t, u=u)
 
 #日報作成
-@app.route('/form', methods=['GET', 'POST'])
+@app.route('/dayform', methods=['GET', 'POST'])
 def form():
     if request.method == 'GET':
         t = request.form.get('team')
@@ -103,7 +209,7 @@ def form():
 
 #日報登録確認
 #データベース格納
-@app.route('/register', methods=['GET', 'POST'])
+@app.route('/dayregister', methods=['GET', 'POST'])
 def resister():
     if request.method == 'GET':
         return render_template('sub.html')
@@ -117,19 +223,65 @@ def resister():
         item = Message(teamname = t, user_id=u, today_do=a, tomorrow_do=b, importance=c)
         db.session.add(item)
         db.session.commit()
-        #d = d.strftime('%Y年%m月%d日 %H:%M:%S')
+        d = d.strftime('%Y:%m:%d %H:%M:%S')
         return render_template('sub.html', t=t, d=d)
 
-#日報登録完了
-@app.route('/sub', methods=['GET', 'POST'])
-def sub():
+
+#進捗
+@app.route('/prog', methods=['Get', 'POST'])
+def proglayout():
+    t = request.form.get('team')
+    u = request.form.get('username')
+    return render_template('progform.html', t=t, u=u)
+
+#進捗作成
+@app.route('/progform', methods=['GET', 'POST'])
+def progform():
+    t = request.form.get('team')
+    u = request.form.get('user_id')
+    a = request.form.get('progress')
+    b = request.form.get('feel')
+    if b == "１":
+        b = "順調"
+    elif b == "２":
+        b = "予定通り"
+    elif b == "３":
+        b = "ギリギリ"
+    elif b == "４":
+        b = "少し遅れてる"
+    elif b == "５":
+        b = "やばい"
+    return render_template('progregister.html', t=t, u=u, a=a, b=b)
+
+#進捗登録確認
+#データベース格納
+@app.route('/progregister', methods=['GET', 'POST'])
+def progresister():
     if request.method == 'GET':
         return render_template('sub.html')
     else:
-        items = Message.query.all()
-        team = request.form.get('team')
-        user_id = 'test'
-        return render_template('home.html', t=team, u=user_id, items=items)
+        t = request.form.get('team')
+        u = request.form.get('user_id')
+        a = request.form.get('progress')
+        b = request.form.get('feel')
+        item = Progress(teamname = t, user_id=u, progress=a, feel=b)
+        db.session.add(item)
+        db.session.commit()
+        c = datetime.now()
+        c = c.strftime('%Y:%m:%d %H:%M:%S')
+        return render_template('progsub.html', t=t, c=c)
+
+
+
+#@app.route('/progsub', methods=['GET', 'POST'])
+#def sub():
+#    if request.method == 'GET':
+#        return render_template('sub.html')
+#    else:
+#        items = Message.query.all()
+#        team = request.form.get('team')
+#        user_id = 'test'
+#        return render_template('home.html', t=team, u=user_id, items=items)
 
 
 if __name__ == '__main__':

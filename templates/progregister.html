@@ -10,16 +10,13 @@
 {{a}}
 <br>
 {{b}}
-<br>
-{{c}}
 
-<form action="/dayregister" method="POST">
+<form action="/progregister" method="POST">
     <input type="submit" value="登録">
 
     <input type="hidden" value={{t}} name="team">
     <input type="hidden" value={{u}} name="user_id">
-    <input type="hidden" value={{a}} name="done">
-    <input type="hidden" value={{b}} name="do">
-    <input type="hidden" value={{c}} name="importance">
+    <input type="hidden" value={{a}} name="progress">
+    <input type="hidden" value={{b}} name="feel">
 </form>
 {% endblock %}

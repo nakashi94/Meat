@@ -1,0 +1,24 @@
+{% extends 'layout.html' %}
+
+{% block headline %}
+<h1>入力フォーム</h1>
+{% endblock %}
+
+{% block content %}
+<form action="/progform" method="POST">
+    <input type="hidden" value={{t}} name="team">
+    <input type="hidden" value={{u}} name="user_id">
+    
+    <p>現在の進捗は？</p>
+    <input type="text" name="progress">
+
+    <p>今の気持ち</p>
+    <input type="radio" name="feel" value="１">順調
+	<input type="radio" name="feel" value="２">予定通り
+    <input type="radio" name="feel" value="３">ギリギリ
+    <input type="radio" name="feel" value="４">少し遅れてる
+    <input type="radio" name="feel" value="５">やばい
+
+    <input type="submit" value="確認">
+</form>
+{% endblock %}

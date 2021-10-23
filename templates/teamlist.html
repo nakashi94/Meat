@@ -1,9 +1,11 @@
 {% extends 'layout.html' %}
 
 {% block headline %}
+
+<h2>ユーザー：{{ user.name }}</h2>
 <h1>チーム一覧</h1>
 
-<form action="/" method="POST">
+<form action="/teamlist" method="POST">
     <input type="submit" value="Create">
 </form>
 {% endblock %}
@@ -14,6 +16,7 @@
 <li class="list-group-item">{{ item.team_id }}</li>
 <h3>チーム名</h3>
 <form action="/toteam" method="POST">
+    <input type="hidden" value={{ user.name }} name="user">    
     <input type="hidden" value={{ item.teamname }} name="team">
     <input type="submit" value="{{ item.teamname }}">
 </form>

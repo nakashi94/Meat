@@ -5,15 +5,28 @@
 
 <form action="/team" method="POST">
     <input type="hidden" value={{t}} name="team">
-    <input type="hidden" value={{u}} name="user_id">
-    <input type="submit" value="Create">
+    <input type="hidden" value={{u}} name="username">
+    <input type="submit" value="日報登録">
+</form>
+<br><br>
+<form action="/prog" method="POST">
+    <input type="hidden" value={{t}} name="team">
+    <input type="hidden" value={{u}} name="username">
+    <input type="submit" value="進捗どう？">
+</form>
+<br><br>
+<form action="/" method="POST">
+    <input type="hidden" value={{u}} name="username">
+    <input type="submit" value="チーム一覧に戻る">
 </form>
 {% endblock %}
 
 {% block content %}
+<br><br>
+<h2>日報一覧</h2>
 <br>
 {% for item in items %}
-<p>{{ item.date }}</p>
+<p>{{ item.date.strftime('%Y:%m:%d %H:%M:%S') }}</p>
 <li class="list-group-item">{{ item.user_id }}</li>
 <h3>やったこと</h3>
 <p>{{ item.today_do }}</p>
@@ -21,6 +34,18 @@
 <p>{{ item.tomorrow_do }}</p>
 <h3>重要度</h3>
 <p>{{ item.importance }}</p>
+{% endfor %} 
+<br><br>
+
+<h2>進捗一覧</h2>
+<br>
+{% for progress in progresses %}
+<p>{{ progress.date.strftime('%Y:%m:%d %H:%M:%S') }}</p>
+<li class="list-group-item">{{ progress.user_id }}</li>
+<h3>進捗どれくらい？</h3>
+<p>{{ progress.progress }}</p>
+<h3>ねぇどんな気持ち？</h3>
+<p>{{ progress.feel }}</p>
 {% endfor %} 
 
 {% endblock %}
