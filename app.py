@@ -10,7 +10,7 @@ name_list = {"hoge": "hogepiyo"}
 def index():
     title = "home"
     return render_template(
-        "login.html", title=title
+        "index.html", title=title
     )  # login.htmlをindex.html(アプリのホーム画面)に変える
 
 
@@ -20,10 +20,22 @@ def login():
     return render_template("login.html", title=title)
 
 
-@app.route("/register", methods=["GET", "POST"])
+@app.route("/registerAccount", methods=["GET", "POST"])
 def register():
-    title = "Register-form"
-    return render_template("register.html", title=title)
+    title = "RegisterAccount-form"
+    return render_template("registerAccount.html", title=title)
+
+
+@app.route("/Team", methods=["GET", "POST"])
+def registerTeam():
+    title = "Team-form"
+    return render_template("Team.html", title=title)
+
+
+@app.route("/list-form", methods=["GET", "POST"])
+def list():
+    title = "list-form"
+    return render_template("list-form.html", title=title)
 
 
 if __name__ == "__main__":
