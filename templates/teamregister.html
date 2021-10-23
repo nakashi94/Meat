@@ -1,0 +1,18 @@
+{% extends 'layout.html' %}
+
+{% block headline %}
+<h1>チーム確認</h1>
+{% endblock %}
+
+{% block content %}
+<h2>このチーム名でよろしいですか</h2>
+
+{{t}}
+<br>
+
+<form action="/teamregister" method="POST">
+    <input type="hidden" value={{u}} name="username">
+    <input type="hidden" value={{t}} name="teamname">
+    <input type="submit" value="登録">
+</form>
+{% endblock %}
