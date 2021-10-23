@@ -8,7 +8,6 @@ from datetime import datetime, date
 from flask_login import LoginManager, login_required, UserMixin, login_user, logout_user
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
-from flask_sqlalchemy import SQLAlchemy
 from wtforms.validators import ValidationError
 
 
@@ -80,10 +79,14 @@ class EntryForm(FlaskForm):
         if User.query.filter_by(mail=mail.data).one_or_none():
             raise ValidationError('このメールアドレスはすでに使われています')
 
+#--------------------------------------------------------------------------------------
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
 
+#--------------------------------------------------------------------------------------
+#機能実装
 
 # login page
 #@app.route('/testlogin', methods=['GET','POST'])
@@ -117,65 +120,46 @@ def entry():
     return redirect('/')
   return render_template('testentry.html', entry=entry)
 
-# test用
-#@app.route("/", methods=["GET", "POST"])
-#def index():
-#    return render_template('index.html')
-
-#@app.route('/fromteam', methods=['Get', 'POST'])
-#def fromteam():
-#    items = Teams.query.all()
-#    u = request.form.get('username')
-#    user = User.query.filter_by(name=form.name.data).one_or_none()
-#    return render_template('teamlist.html', items=items, user=user)
+@app.route('/fromteam', methods=['Get', 'POST'])
+def fromteam():
+    items = Teams.query.all()
+    u = request.form.get('username')
+    user = User.query.filter_by(name=u).first()
+    return render_template('teamlist.html', items=items, user=user)
 
 @app.route('/teamlist', methods=['Get', 'POST'])
 def teamlist():
-    #if request.method == 'GET':
-    #    return render_template('index.html')
     if request.method == 'GET':
         items = Teams.query.all()
-        u = request.form.get('username')
+        u = request.form.get('user')
         return render_template('teamlist.html', items=items, u=u)
     else:
-        #u = request.form.get('user_id')
-        return render_template('teamform.html')
+        u = request.form.get('user')
+        return render_template('teamform.html', u=u)
 
 
 
 #チーム作成
 @app.route('/teamform', methods=['Get', 'POST'])
 def teamform():
-    if request.method == 'GET':
-        #u = request.form.get('user_id')
-        return render_template('teamform.html')
-    else:
-        t = request.form.get('teamname')
-        return render_template('teamregister.html', t=t)
+    u = request.form.get('username')
+    t = request.form.get('teamname')
+    return render_template('teamregister.html', t=t, u=u)
 
 #チーム登録確認
 #データベース格納
 @app.route('/teamregister', methods=['GET', 'POST'])
 def teamregister():
-    if request.method == 'GET':
-        return render_template('teamsub.html')
-    else:
-        t = request.form.get('teamname')
-        item = Teams(teamname=t)
-        db.session.add(item)
-        db.session.commit()
-        d = datetime.now()
-        d = d.strftime('%Y:%m:%d %H:%M:%S')
-        return render_template('teamsub.html', d=d)
-
-#登録完了
-@app.route('/teamsub', methods=['GET', 'POST'])
-def teamsub():
-    if request.method == 'GET':
-        return render_template('teamsub.html')
-    else:
-        items = Teams.query.all()
-        return render_template('teamlist.html', items=items)
+    t = request.form.get('teamname')
+    item = Teams(teamname=t)
+    db.session.add(item)
+    db.session.commit()
+    d = datetime.now()
+    d = d.strftime('%Y:%m:%d %H:%M:%S')
+    items = Teams.query.all()
+    u = request.form.get('username')
+    user = User.query.filter_by(name=u).first()
+    return render_template('teamlist.html', items=items, user=user)
 
 #各チーム画面に遷移
 @app.route('/toteam', methods=['GET', 'POST'])
@@ -191,6 +175,8 @@ def layout():
     t = request.form.get('team')
     u = request.form.get('username')
     return render_template('form.html', t=t, u=u)
+
+#データ入力----------------------------------------------------------------------------
 
 #日報作成
 @app.route('/dayform', methods=['GET', 'POST'])
@@ -224,7 +210,11 @@ def resister():
         db.session.add(item)
         db.session.commit()
         d = d.strftime('%Y:%m:%d %H:%M:%S')
-        return render_template('sub.html', t=t, d=d)
+        #チーム一覧ページ移動
+
+        progress = Progress.query.filter_by(teamname=t).all()
+        items = Message.query.filter_by(teamname=t).all()
+        return render_template('home.html', t=t, u=u, items=items, progresses=progress)
 
 
 #進捗
@@ -257,31 +247,19 @@ def progform():
 #データベース格納
 @app.route('/progregister', methods=['GET', 'POST'])
 def progresister():
-    if request.method == 'GET':
-        return render_template('sub.html')
-    else:
-        t = request.form.get('team')
-        u = request.form.get('user_id')
-        a = request.form.get('progress')
-        b = request.form.get('feel')
-        item = Progress(teamname = t, user_id=u, progress=a, feel=b)
-        db.session.add(item)
-        db.session.commit()
-        c = datetime.now()
-        c = c.strftime('%Y:%m:%d %H:%M:%S')
-        return render_template('progsub.html', t=t, c=c)
-
-
-
-#@app.route('/progsub', methods=['GET', 'POST'])
-#def sub():
-#    if request.method == 'GET':
-#        return render_template('sub.html')
-#    else:
-#        items = Message.query.all()
-#        team = request.form.get('team')
-#        user_id = 'test'
-#        return render_template('home.html', t=team, u=user_id, items=items)
+    t = request.form.get('team')
+    u = request.form.get('user_id')
+    a = request.form.get('progress')
+    b = request.form.get('feel')
+    item = Progress(teamname = t, user_id=u, progress=a, feel=b)
+    db.session.add(item)
+    db.session.commit()
+    c = datetime.now()
+    c = c.strftime('%Y:%m:%d %H:%M:%S')
+    #一覧ページ移動
+    progress = Progress.query.filter_by(teamname=t).all()
+    items = Message.query.filter_by(teamname=t).all()
+    return render_template('home.html', t=t, u=u, items=items, progresses=progress)
 
 
 if __name__ == '__main__':

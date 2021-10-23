@@ -6,8 +6,13 @@
 <h1>チーム一覧</h1>
 
 <form action="/teamlist" method="POST">
-    <input type="submit" value="Create">
+    <input type="hidden" value={{ user.name }} name="user">
+    <input type="submit" value="チーム作成">
 </form>
+<form action="/" method="POST">
+    <input type="submit" value="ログアウト">
+</form>
+
 {% endblock %}
 
 {% block content %}
@@ -16,7 +21,7 @@
 <li class="list-group-item">{{ item.team_id }}</li>
 <h3>チーム名</h3>
 <form action="/toteam" method="POST">
-    <input type="hidden" value={{ user.name }} name="user">    
+    <input type="hidden" value={{ user.name }} name="user">
     <input type="hidden" value={{ item.teamname }} name="team">
     <input type="submit" value="{{ item.teamname }}">
 </form>

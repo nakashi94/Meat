@@ -11,8 +11,8 @@
 <br>
 
 <form action="/teamregister" method="POST">
-    <input type="submit" value="登録">
-
+    <input type="hidden" value={{u}} name="username">
     <input type="hidden" value={{t}} name="teamname">
+    <input type="submit" value="登録">
 </form>
 {% endblock %}
