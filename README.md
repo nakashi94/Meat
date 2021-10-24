@@ -21,13 +21,18 @@
 ***
 
 ## :speech_balloon: Usage
-<p>flask_appという名前でディレクトリを作成し、その配下で
+<<<<<<< HEAD
+flask_appという名前でディレクトリを作成し、その配下で
+
     $ git clone
-    $ docker build -t s2110121/flask-app:1.0 .
-    $ docker run -p 5000:80 -v ${PWD}:/flask_app -it s2110121/flask-app:1.0
-<p>を入力する。そして、</p>
+    $ docker build -t s2110121/flask-app:1.4 .
+    $ docker run -p 5000:80 -v ${PWD}:/flask_app -it s2110121/flask-app:1.4
+
+を入力する。そして、
+
 `python app.py`
-<p>を入力後、Google Chromeにてlocalhost:5000でアクセス。</p>
+
+を入力後、Google Chromeにてlocalhost:5000でアクセス。
 
 ## :eyes: Author
 * <a href="https://github.com/nakashi94">Nakashima Yuta</a>

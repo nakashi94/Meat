@@ -1,3 +1,4 @@
+<!--共通レイアウト-->
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -7,21 +8,40 @@
     <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
-    <link rel="stylesheet" href="/static/css/Login-Form-Dark.css">
-    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    <link rel="stylesheet" href="{{url_for('static',filename='css/styles.css')}}" />
+    <link rel="stylesheet" href="{{url_for('static',filename='css/Login-Form-Dark.css')}}">
+    <link rel="stylesheet" href="{{url_for('static',filename='css/Registration-Form.css')}}">
+    <link rel="stylesheet" href="{{url_for('static',filename='css/Navigation=with-Button.css')}}">
+    <link rel="stylesheet" href="{{url_for('static',filename='css/Footer-Basic.css')}}">
+    <link rel="stylesheet" href="{{url_for('static',filename='css/reportForm-Clean.css')}}">
+    <link rel="stylesheet" href="{{url_for('static',filename='css/progressForm-Clean.css')}}">
   </head>
 
   <body>
     <div class=wrapper>
       {% block headline %}{% endblock %}
+      <!--ヘッダーバー-->
 
       {% block content %}{% endblock %}
+      <!--内容-->
 
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
   </body>
-  <footer class=footer>
-    {% block footer %}{% endblock %}
+
+  <footer class="footer-basic">
+    <div class="social"><a href="#"><i class="icon ion-social-instagram"></i></a><a href="#"><i
+          class="icon ion-social-snapchat"></i></a><a href="#"><i class="icon ion-social-twitter"></i></a><a href="#"><i
+          class="icon ion-social-facebook"></i></a></div>
+    <ul class="list-inline">
+      <li class="list-inline-item"><a href="#">Home</a></li>
+      <li class="list-inline-item"><a href="#">Services</a></li>
+      <li class="list-inline-item"><a href="#">About</a></li>
+      <li class="list-inline-item"><a href="#">Terms</a></li>
+      <li class="list-inline-item"><a href="#">Privacy Policy</a></li>
+    </ul>
+    <p class="copyright"> © 2021</p>
   </footer>
 
 </html>

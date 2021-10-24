@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+<!--登録画面-->
+{% block title %}
+{{title}}
+{% endblock %}
+
+{% block headline %}
+<nav class="navbar navbar-light navbar-expand-md navigation-clean-button">
+    <div class="container"><a class="navbar-brand" href="/">App Name</a><button data-bs-toggle="collapse"
+            data-bs-target="#navcol-1" class="navbar-toggler"><span class="visually-hidden">Toggle
+                navigation</span><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navcol-1">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item"></li>
+                <li class="nav-item"></li>
+                <li class="nav-item dropdown"></li>
+            </ul>
+            <span class="navbar-text actions"><a class="login" href="/login">Log In</a>
+                <a class="btn btn-light action-button" role="button" href="/">Home</a></span>
+        </div>
+    </div>
+</nav>
+{% endblock %}
+
+{% block content %}
+<section class="register">
+    <div class="form-container">
+        <form action="/Team" method="post">
+            <h2 class="text-center"><strong>Create</strong> an account.</h2>
+            <div class="mb-3"><input class="form-control" type="user_name" name="user_name" placeholder="username">
+            </div>
+            <div class="mb-3"><input class="form-control" type="mail" name="mail" placeholder="mailaddress">
+            </div>
+            <div class="mb-3"><input class="form-control" type="mail" name="mail-repeat"
+                    placeholder="mailAddress (repeat)"></div>
+            <div class="mb-3">
+                <div class="form-check"><label class="form-check-label"><input class="form-check-input"
+                            type="checkbox">Have you checked?</label></div>
+            </div>
+            <div class="mb-3"><button class="btn btn-primary d-block w-100" type="submit">Sign Up</button></div>
+            <a class="already" href="/login">You already have an account? Login here.</a>
+        </form>
+    </div>
+</section>
+{% endblock %}

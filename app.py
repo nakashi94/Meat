@@ -11,7 +11,7 @@ from wtforms import StringField, SubmitField
 from wtforms.validators import ValidationError
 
 
-# flask incetance
+# flask instance
 app = Flask(__name__)
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -20,6 +20,9 @@ app.secret_key = b"random string..."
 # global variables
 member_data = {}
 
+# UsersDataBase
+db_uri = 'sqlite:///login.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///todo.db'
 db = SQLAlchemy(app)
 
@@ -33,6 +36,8 @@ class User(UserMixin, db.Model):
     def __init__(self, name, mail):
         self.name = name
         self.mail = mail
+
+db.create_all()
 
 # Teamsクラス定義
 class Teams(db.Model):
@@ -57,7 +62,6 @@ class Progress(db.Model):
     date = db.Column(db.DateTime, nullable=False, default=datetime.now)
     progress = db.Column(db.String(64), nullable=False)
     feel = db.Column(db.Integer, nullable=False)
-
 
 # Loginクラス定義
 class LoginForm(FlaskForm):
@@ -89,7 +93,6 @@ def load_user(user_id):
 #機能実装
 
 # login page
-#@app.route('/testlogin', methods=['GET','POST'])
 @app.route('/', methods=['GET','POST'])
 def login():
     form = LoginForm()
@@ -112,13 +115,13 @@ def logout():
 # sign up page
 @app.route('/testentry', methods=['GET','POST'])
 def entry():
-  entry = EntryForm()
-  if entry.validate_on_submit():
-    newuser = User(name=entry.name.data, mail=entry.mail.data)
-    db.session.add(newuser)
-    db.session.commit()
-    return redirect('/')
-  return render_template('testentry.html', entry=entry)
+    entry = EntryForm()
+    if entry.validate_on_submit():
+        newuser = User(name=entry.name.data, mail=entry.mail.data)
+        db.session.add(newuser)
+        db.session.commit()
+        return redirect('/')
+    return render_template('testentry.html', entry=entry)
 
 @app.route('/fromteam', methods=['Get', 'POST'])
 def fromteam():
@@ -181,17 +184,18 @@ def layout():
 #日報作成
 @app.route('/dayform', methods=['GET', 'POST'])
 def form():
+    title="日報"
     if request.method == 'GET':
         t = request.form.get('team')
         u = request.form.get('user_id')
-        return render_template('form.html', t=t, u=u)
+        return render_template('form.html',title=title, t=t, u=u)
     else:
         t = request.form.get('team')
         u = request.form.get('user_id')
         a = request.form.get('done')
         b = request.form.get('do')
         c = request.form.get('importance')
-        return render_template('register.html', t=t, u=u, a=a, b=b, c=c)
+        return render_template('register.html',title=title, t=t, u=u, a=a, b=b, c=c)
 
 #日報登録確認
 #データベース格納
@@ -230,17 +234,21 @@ def progform():
     t = request.form.get('team')
     u = request.form.get('user_id')
     a = request.form.get('progress')
+    if a == "12":
+        a == "未完"
+    elif a == "13":
+        a == "完了"
     b = request.form.get('feel')
-    if b == "１":
-        b = "順調"
-    elif b == "２":
-        b = "予定通り"
-    elif b == "３":
-        b = "ギリギリ"
-    elif b == "４":
-        b = "少し遅れてる"
-    elif b == "５":
-        b = "やばい"
+    if b == "1":
+        b = "余裕すぎて天使"
+    elif b == "2":
+        b = "余裕の笑み"
+    elif b == "3":
+        b = "ま、まあ大丈夫か"
+    elif b == "4":
+        b = "や、やばいっす"
+    elif b == "5":
+        b = "助けてください"
     return render_template('progregister.html', t=t, u=u, a=a, b=b)
 
 #進捗登録確認
@@ -250,7 +258,21 @@ def progresister():
     t = request.form.get('team')
     u = request.form.get('user_id')
     a = request.form.get('progress')
+    if a == "12":
+        a == "未完"
+    elif a == "13":
+        a == "完了"
     b = request.form.get('feel')
+    if b == "1":
+        b = "余裕すぎて天使"
+    elif b == "2":
+        b = "余裕の笑み"
+    elif b == "3":
+        b = "ま、まあ大丈夫か"
+    elif b == "4":
+        b = "や、やばいっす"
+    elif b == "5":
+        b = "助けてください"
     item = Progress(teamname = t, user_id=u, progress=a, feel=b)
     db.session.add(item)
     db.session.commit()
