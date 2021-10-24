@@ -21,7 +21,6 @@
 ***
 
 ## :speech_balloon: Usage
-<<<<<<< HEAD
 flask_appという名前でディレクトリを作成し、その配下で
 
     $ git clone
