@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+
+{% block title %}
+{{title}}
+{% endblock %}
+
+{% block content %}
+<section class="contact-clean">
+  <form action="/list-form" method="post">
+    <h2 class="text-center">進捗状況</h2>
+    <input type="hidden" value={{t}} name="team">
+    <input type="hidden" value={{u}} name="user_id">
+    <select class="form-select">
+      <optgroup label="完了してる？">
+        <option value="12" selected="">未完</option>
+        <option value="13">完了</option>
+      </optgroup>
+    </select>
+    <div class="text-center">
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" id="formCheck-1" name="feel" value="1">
+        <label class="form-check-label" for="formCheck-1">>&#128519;(余裕すぎて天使)</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" id="formCheck-2" name="feel" value="2">
+        <label class="form-check-label" for="formCheck-1">&#128578;(余裕の笑み)</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" id="formCheck-3" name="feel" value="3">
+        <label class="form-check-label" for="formCheck-1">&#129320;(ま、まあ大丈夫か)</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" id="formCheck-4" name="feel" value="4">
+        <label class="form-check-label" for="formCheck-1">&#129320;(や、やばいっす)</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" id="formCheck-5" name="feel" value="5">
+        <label class="form-check-label" for="formCheck-1">&#129402;(助けてください)</label>
+      </div>
+    </div>
+    <div class="mb-3"><button class="btn btn-primary" type="submit" value="確認">確認</button></div>
+  </form>
+</section>
+{% endblock %}
