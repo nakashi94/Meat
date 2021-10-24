@@ -184,17 +184,18 @@ def layout():
 #日報作成
 @app.route('/dayform', methods=['GET', 'POST'])
 def form():
+    title="日報"
     if request.method == 'GET':
         t = request.form.get('team')
         u = request.form.get('user_id')
-        return render_template('form.html', t=t, u=u)
+        return render_template('form.html',title=title, t=t, u=u)
     else:
         t = request.form.get('team')
         u = request.form.get('user_id')
         a = request.form.get('done')
         b = request.form.get('do')
         c = request.form.get('importance')
-        return render_template('register.html', t=t, u=u, a=a, b=b, c=c)
+        return render_template('register.html',title=title, t=t, u=u, a=a, b=b, c=c)
 
 #日報登録確認
 #データベース格納
@@ -233,6 +234,10 @@ def progform():
     t = request.form.get('team')
     u = request.form.get('user_id')
     a = request.form.get('progress')
+    if a == "12":
+        a == "未完"
+    elif a == "13":
+        a == "完了"
     b = request.form.get('feel')
     if b == "１":
         b = "順調"
@@ -264,48 +269,6 @@ def progresister():
     items = Message.query.filter_by(teamname=t).all()
     return render_template('home.html', t=t, u=u, items=items, progresses=progress)
 
-@app.route("/", methods=["GET", "POST"])
-def index():
-    title = "home"
-    return render_template(
-        "index.html", title=title
-    )  # login.htmlをindex.html(アプリのホーム画面)に変える
-
-
-@app.route("/login", methods=["GET", "POST"])
-def login():
-    title = "Login"
-    return render_template("login.html", title=title)
-
-
-@app.route("/registerAccount", methods=["GET", "POST"])
-def register():
-    title = "RegisterAccount-form"
-    return render_template("registerAccount.html", title=title)
-
-
-@app.route("/Team", methods=["GET", "POST"])
-def registerTeam():
-    title = "Team-form"
-    return render_template("Team.html", title=title)
-
-
-@app.route("/list-form", methods=["GET", "POST"])
-def list():
-    title = "list-form"
-    return render_template("list-form.html", title=title)
-
-
-@app.route("/progressform", methods=["GET", "POST"])
-def progform():
-    title="進捗状況"
-    return render_template("progressform.html",title=title)
-
-
-@app.route("/reportform", methods=["GET", "POST"])
-def input():
-    title="日報"
-    return render_template("reportform.html",title=title)
 
 if __name__ == '__main__':
     app.debug = True

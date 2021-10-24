@@ -1,51 +1,109 @@
-{% extends 'layout.html' %}
+{% extends "layout.html" %}
+<!--一覧表示ページ-->
+{% block title %}
+一覧
+{% endblock %}
 
 {% block headline %}
-<h1>{{ t }}の画面</h1>
-
-<form action="/team" method="POST">
-    <input type="hidden" value={{t}} name="team">
-    <input type="hidden" value={{u}} name="username">
-    <input type="submit" value="日報登録">
-</form>
-<br><br>
-<form action="/prog" method="POST">
-    <input type="hidden" value={{t}} name="team">
-    <input type="hidden" value={{u}} name="username">
-    <input type="submit" value="進捗どう？">
-</form>
-<br><br>
-<form action="/fromteam" method="POST">
-    <input type="hidden" value={{u}} name="username">
-    <input type="submit" value="チーム一覧に戻る">
-</form>
+<nav class="navbar navbar-light navbar-expand-md navigation-clean-button">
+  <div class="container"><a class="navbar-brand" href="">{{ t }}の画面</a><button data-bs-toggle="collapse"
+      data-bs-target="#navcol-1" class="navbar-toggler"><span class="visually-hidden">Toggle
+        navigation</span><span class="navbar-toggler-icon"></span></button>
+    <div class="collapse navbar-collapse" id="navcol-1">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <form action="/team" method="POST">
+            <input type="hidden" value={{t}} name="team">
+            <input type="hidden" value={{u}} name="username">
+            <input type="submit" value="日報登録">
+          </form>
+        </li>
+        <li class="nav-item">
+          <form action="/prog" method="POST">
+            <input type="hidden" value={{t}} name="team">
+            <input type="hidden" value={{u}} name="username">
+            <input type="submit" value="進捗どう？">
+          </form>
+        </li>
+        <li class="nav-item">
+          <form action="/fromteam" method="POST">
+            <input type="hidden" value={{u}} name="username">
+            <input type="submit" value="チーム一覧に戻る">
+          </form>
+        </li>
+      </ul>
+      <span class="navbar-text actions">
+        <a class="btn btn-light action-button" role="button" href="/">logout</a></span>
+    </div>
+  </div>
+</nav>
 {% endblock %}
 
 {% block content %}
-<br><br>
 <h2>日報一覧</h2>
-<br>
-{% for item in items %}
-<p>{{ item.date.strftime('%Y:%m:%d %H:%M:%S') }}</p>
-<li class="list-group-item">{{ item.user_id }}</li>
-<h3>やったこと</h3>
-<p>{{ item.today_do }}</p>
-<h3>明日やること</h3>
-<p>{{ item.tomorrow_do }}</p>
-<h3>重要度</h3>
-<p>{{ item.importance }}</p>
-{% endfor %} 
-<br><br>
+<section class=list>
+  <!-- post starts -->
+  {% for item in items %}
+  <div class="post">
 
-<h2>進捗一覧</h2>
-<br>
-{% for progress in progresses %}
-<p>{{ progress.date.strftime('%Y:%m:%d %H:%M:%S') }}</p>
-<li class="list-group-item">{{ progress.user_id }}</li>
-<h3>進捗どれくらい？</h3>
-<p>{{ progress.progress }}</p>
-<h3>ねぇどんな気持ち？</h3>
-<p>{{ progress.feel }}</p>
-{% endfor %} 
+    <div class="post__avatar">
+      <img src="" alt="" />
+    </div>
 
+    <div class="post__body">
+      <div class="post__header">
+        <div class="post__headerText">
+          <h3>
+            {{ item.user_id }}
+            <span class="post__headerSpecial"><span class="material-icons post__badge"> verified
+              </span>{{ item.date.strftime('%Y:%m:%d %H:%M:%S') }}</span>
+          </h3>
+        </div>
+        <div class="post__headerDescription">
+          <h3>やったこと</h3>
+          <p>{{ item.today_do }}</p>
+          <h3>明日やること</h3>
+          <p>{{ item.tomorrow_do }}</p>
+          <h3>重要度</h3>
+          <p>{{ item.importance }}</p>
+        </div>
+      </div>
+      <div class="post__footer">
+      </div>
+    </div>
+  </div>
+  <!-- post ends -->
+  {% endfor %}
+  <br>
+  <h2>進捗一覧</h2>
+  <!-- post starts -->
+  {% for progress in progresses %}
+  <div class="post">
+    <div class="post__avatar">
+      <img src="" alt="" />
+    </div>
+
+    <div class="post__body">
+      <div class="post__header">
+        <div class="post__headerText">
+          <h3>
+            {{ progress.user_id }}
+            <span class="post__headerSpecial"><span class="material-icons post__badge"> verified
+              </span>{{ progress.date.strftime('%Y:%m:%d %H:%M:%S') }}</span>
+          </h3>
+        </div>
+        <div class="post__headerDescription">
+          <h3>進捗どれくらい？</h3>
+          <p>{{ progress.progress }}</p>
+          <h3>ねぇどんな気持ち？</h3>
+          <p>{{ progress.feel }}</p>
+        </div>
+      </div>
+      <div class="post__footer">
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+  <!-- post ends -->
+</section>
 {% endblock %}

@@ -1,30 +1,66 @@
-{% extends 'layout.html' %}
+{% extends "layout.html" %}
+<!--登録画面-->
+{% block title %}
+チーム参加画面&&チーム作成
+{% endblock %}
 
 {% block headline %}
-
-<h2>ユーザー：{{ user.name }}</h2>
-<h1>チーム一覧</h1>
-
-<form action="/teamlist" method="POST">
-    <input type="hidden" value={{ user.name }} name="user">
-    <input type="submit" value="チーム作成">
-</form>
-<form action="/" method="POST">
-    <input type="submit" value="ログアウト">
-</form>
-
+<nav class="navbar navbar-light navbar-expand-md navigation-clean-button">
+    <div class="container"><a class="navbar-brand" href="/">ユーザー：{{ user.name }}</a><button data-bs-toggle="collapse"
+            data-bs-target="#navcol-1" class="navbar-toggler"><span class="visually-hidden">Toggle
+                navigation</span><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navcol-1">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <form action="/teamlist" method="POST">
+                        <input type="hidden" value={{ user.name }} name="user">
+                        <input type="submit" value="チーム作成">
+                    </form>
+                </li>
+                <li class="nav-item">
+                </li>
+            </ul>
+            <span class="navbar-text actions"><a class="login" href="/login">未定</a>
+                <a class="btn btn-light action-button" role="button" href="/">Log Out</a></span>
+        </div>
+    </div>
+</nav>
 {% endblock %}
 
 {% block content %}
-<br>
-{% for item in items %}
-<li class="list-group-item">{{ item.team_id }}</li>
-<h3>チーム名</h3>
-<form action="/toteam" method="POST">
-    <input type="hidden" value={{ user.name }} name="user">
-    <input type="hidden" value={{ item.teamname }} name="team">
-    <input type="submit" value="{{ item.teamname }}">
-</form>
-{% endfor %} 
+<h2>Team List</h2>
+<section class=list>
+    <!-- post starts -->
+    {% for item in items %}
+    <div class="post">
+        <div class="post__avatar">
+            <img src="" alt="" />
+        </div>
+
+        <div class="post__body">
+            <div class="post__header">
+                <div class="post__headerText">
+                    <h3>
+                        チーム名
+                        <span class="post__headerSpecial"><span class="material-icons post__badge"> verified
+                            </span>{{ item.team_id }}</span>
+                    </h3>
+                </div>
+                <div class="post__headerDescription">
+                    <form action="/toteam" method="POST">
+                        <input type="hidden" value={{ user.name }} name="user">
+                        <input type="hidden" value={{ item.teamname }} name="team">
+                        <input type="submit" value="{{ item.teamname }}">
+                    </form>
+                </div>
+            </div>
+            <div class="post__footer">
+                <a href="/list-form"><span>参加する</span></a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    <!-- post end-->
+</section>
 
 {% endblock %}
