@@ -65,15 +65,15 @@ class Progress(db.Model):
 
 # Loginクラス定義
 class LoginForm(FlaskForm):
-    name = StringField('名前')
-    mail = StringField('メールアドレス')
-    submit = SubmitField('ログイン')
+    name = StringField('username')
+    mail = StringField('mailaddress')
+    submit = SubmitField('Login')
 
 # EntryFormクラスの定義
 class EntryForm(FlaskForm):
-    name = StringField('名前')
-    mail = StringField('メールアドレス')
-    submit = SubmitField('アカウント作成')
+    name = StringField('username')
+    mail = StringField('mailaddress')
+    submit = SubmitField('Sign up')
 
     def validate_name(self, name):
         if User.query.filter_by(name=name.data).one_or_none():
@@ -93,8 +93,9 @@ def load_user(user_id):
 #機能実装
 
 # login page
-@app.route('/testlogin', methods=['GET','POST'])
-def login():
+@app.route('/login', methods=['GET','POST'])
+def logina():
+    title = "Login"
     form = LoginForm()
     if form.validate_on_submit():
         if User.query.filter_by(name=form.name.data, mail=form.mail.data).one_or_none():
@@ -104,7 +105,7 @@ def login():
             return render_template('teamlist.html',user=user, items=items)
         else:
             return 'ログインに失敗しました'
-    return render_template('testlogin.html',form=form)
+    return render_template('login.html', title=title, form=form)
 
 # logout page
 @app.route("/testlogout", methods=["GET"])
@@ -112,16 +113,27 @@ def logout():
     logout_user()
     return render_template('testlogout.html')
 
+
+
+# @app.route("/registerAccount", methods=["GET", "POST"])
+# def register():
+    # title = "RegisterAccount-form"
+    # return render_template("registerAccount.html", title=title)
+
+
+
+
 # sign up page
-@app.route('/testentry', methods=['GET','POST'])
+@app.route('/registerAccount', methods=['GET','POST'])
 def entry():
+    title = "RegisterAccount-form"
     entry = EntryForm()
     if entry.validate_on_submit():
         newuser = User(name=entry.name.data, mail=entry.mail.data)
         db.session.add(newuser)
         db.session.commit()
-        return redirect('/')
-    return render_template('testentry.html', entry=entry)
+        return redirect('/login')
+    return render_template('registerAccount.html', title=title, entry=entry)
 
 @app.route('/fromteam', methods=['Get', 'POST'])
 def fromteam():
@@ -139,8 +151,6 @@ def teamlist():
     else:
         u = request.form.get('user')
         return render_template('teamform.html', u=u)
-
-
 
 #チーム作成
 @app.route('/teamform', methods=['Get', 'POST'])
@@ -229,7 +239,7 @@ def proglayout():
 
 #進捗作成
 @app.route('/progform', methods=['GET', 'POST'])
-def progform():
+def progforms():
     t = request.form.get('team')
     u = request.form.get('user_id')
     a = request.form.get('progress')
@@ -264,6 +274,13 @@ def progresister():
     items = Message.query.filter_by(teamname=t).all()
     return render_template('home.html', t=t, u=u, items=items, progresses=progress)
 
+
+
+
+
+
+
+# ホームページ
 @app.route("/", methods=["GET", "POST"])
 def index():
     title = "home"
@@ -272,16 +289,6 @@ def index():
     )  # login.htmlをindex.html(アプリのホーム画面)に変える
 
 
-@app.route("/login", methods=["GET", "POST"])
-def login():
-    title = "Login"
-    return render_template("login.html", title=title)
-
-
-@app.route("/registerAccount", methods=["GET", "POST"])
-def register():
-    title = "RegisterAccount-form"
-    return render_template("registerAccount.html", title=title)
 
 
 @app.route("/Team", methods=["GET", "POST"])

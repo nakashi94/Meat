@@ -25,11 +25,18 @@
 {% block content %}
 <section class="register">
     <div class="form-container">
-        <form action="/Team" method="post">
+        <form action="/login" method="post">
             <h2 class="text-center"><strong>Create</strong> an account.</h2>
-            <div class="mb-3"><input class="form-control" type="user_name" name="user_name" placeholder="username">
+            {{ entry.csrf_token }}
+            <div class="mb-3 form-control">{{ entry.name.label }} : {{ entry.name }} <br>
+                {% for error in entry.name.errors %}
+                <span style="color: red;">{{ error }}</span>
+                {% endfor %}<br>
             </div>
-            <div class="mb-3"><input class="form-control" type="mail" name="mail" placeholder="mailaddress">
+            <div class="mb-3 form-control">{{ entry.mail.label }}:{{ entry.mail }}<br>
+                {% for error in entry.mail.errors %}
+                <span style="color: red;">{{ error }}</span>
+                {% endfor %}<br>
             </div>
             <div class="mb-3"><input class="form-control" type="mail" name="mail-repeat"
                     placeholder="mailAddress (repeat)"></div>
@@ -37,9 +44,34 @@
                 <div class="form-check"><label class="form-check-label"><input class="form-check-input"
                             type="checkbox">Have you checked?</label></div>
             </div>
-            <div class="mb-3"><button class="btn btn-primary d-block w-100" type="submit">Sign Up</button></div>
+            <div class="mb-3 btn btn-primary d-block w-100">{{ entry.submit }}</div>
             <a class="already" href="/login">You already have an account? Login here.</a>
         </form>
     </div>
 </section>
 {% endblock %}
+
+
+
+<form method="POST" action="{{url_for('entry')}}">
+    {{ entry.csrf_token }}
+
+    {{ entry.name.label }}:{{ entry.name }} <br>
+    {% for error in entry.name.errors %}
+    <span style="color: red;">{{ error }}</span>
+    {% endfor %}<br>
+
+    {{ entry.mail.label }}:{{ entry.mail }}<br>
+    {% for error in entry.mail.errors %}
+    <span style="color: red;">{{ error }}</span>
+    {% endfor %}<br>
+
+    {{ entry.submit}}
+</form>
+
+
+<input class="form-control" type="user_name" name="user_name" placeholder="username">
+
+<input class="form-control" type="mail" name="mail" placeholder="mailaddress">
+
+<button class="btn btn-primary d-block w-100" type="submit">Sign Up</button>
