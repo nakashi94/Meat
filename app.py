@@ -115,13 +115,13 @@ def logout():
 # sign up page
 @app.route('/testentry', methods=['GET','POST'])
 def entry():
-  entry = EntryForm()
-  if entry.validate_on_submit():
-    newuser = User(name=entry.name.data, mail=entry.mail.data)
-    db.session.add(newuser)
-    db.session.commit()
-    return redirect('/')
-  return render_template('testentry.html', entry=entry)
+    entry = EntryForm()
+    if entry.validate_on_submit():
+        newuser = User(name=entry.name.data, mail=entry.mail.data)
+        db.session.add(newuser)
+        db.session.commit()
+        return redirect('/')
+    return render_template('testentry.html', entry=entry)
 
 @app.route('/fromteam', methods=['Get', 'POST'])
 def fromteam():
