@@ -21,6 +21,7 @@
 ***
 
 ## :speech_balloon: Usage
+<<<<<<< HEAD
 flask_appという名前でディレクトリを作成し、その配下で
 
     $ git clone
@@ -35,4 +36,3 @@ flask_appという名前でディレクトリを作成し、その配下で
 
 ## :eyes: Author
 * <a href="https://github.com/nakashi94">Nakashima Yuta</a>
-* <a href="https://github.com/Rei-Suzuki1729">Suzuki Rei</a>

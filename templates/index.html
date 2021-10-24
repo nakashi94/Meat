@@ -1,6 +1,8 @@
+<!-- アプリのホーム画面-->
 {% extends "layout.html" %}
 
 {% block title %}
+<<<<<<< HEAD
 Login
 {% endblock %}
 
@@ -21,3 +23,30 @@ Login
     </form>
 </section>
 {% endblock %}
+=======
+test&&Home
+{% endblock %}
+
+{% block headline %}
+<nav class="navbar navbar-light navbar-expand-md navigation-clean-button">
+  <div class="container"><a class="navbar-brand" href="/">App Name</a><button data-bs-toggle="collapse"
+      data-bs-target="#navcol-1" class="navbar-toggler"><span class="visually-hidden">Toggle
+        navigation</span><span class="navbar-toggler-icon"></span></button>
+    <div class="collapse navbar-collapse" id="navcol-1">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item"></li>
+        <li class="nav-item"></li>
+        <li class="nav-item dropdown"></li>
+      </ul>
+      <span class="navbar-text actions"><a class="login" href="/login">Log In</a>
+        <a class="btn btn-light action-button" role="button" href="/registerAccount">Sign Up</a></span>
+    </div>
+  </div>
+</nav>
+{% endblock %}
+
+{% block content %}
+<h1><a href="/login">Log In</a></h1>
+<h2><a href="/registerAccount">Register</a></h2>
+{% endblock %}
+>>>>>>> b1ea126f8c3a8234a6bbcaf44d99304e8157c5d1
