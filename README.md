@@ -1,4 +1,4 @@
-<h1 align=center>:blue_book:進捗管理アプリ(仮)</h1>
+<h1 align=center>:blue_book:進捗管理アプリ</h1>
 
 <img src="https://wp.notepm.jp/wp-content/uploads/2020/03/project-tool.jpg">
 
